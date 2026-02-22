@@ -62,7 +62,10 @@ client.on('interactionCreate', async interaction => {
     await interaction.reply("O ritual é iniciado...\nO silêncio consome as vozes.");
 
     channel.members.forEach(member => {
-      if (member.id !== interaction.user.id) {
+      if (
+        member.id !== interaction.user.id && // não muta quem usou
+        !member.user.bot                    // NÃO muta bots
+      ) {
         member.voice.setMute(true).catch(console.error);
       }
     });
@@ -73,7 +76,9 @@ client.on('interactionCreate', async interaction => {
     await interaction.reply("O selo se rompe.\nAs vozes retornam.");
 
     channel.members.forEach(member => {
-      member.voice.setMute(false).catch(console.error);
+      if (!member.user.bot) { // também ignora bots aqui
+        member.voice.setMute(false).catch(console.error);
+      }
     });
   }
 });
