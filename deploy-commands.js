@@ -2,14 +2,34 @@ require('dotenv').config();
 const { REST, Routes, SlashCommandBuilder } = require('discord.js');
 
 const commands = [
-  new SlashCommandBuilder()
-    .setName('conjurar')
-    .setDescription('Conjura um ritual de silêncio')
-    .addUserOption(option =>
-      option.setName('imune')
-        .setDescription('Usuário que não será afetado pelo ritual')
-        .setRequired(false)
-    ),
+new SlashCommandBuilder()
+  .setName('conjurar')
+  .setDescription('Conjura um ritual de silêncio')
+  .addUserOption(option =>
+    option.setName('imune1')
+      .setDescription('Usuário imune 1')
+      .setRequired(false)
+  )
+  .addUserOption(option =>
+    option.setName('imune2')
+      .setDescription('Usuário imune 2')
+      .setRequired(false)
+  )
+  .addUserOption(option =>
+    option.setName('imune3')
+      .setDescription('Usuário imune 3')
+      .setRequired(false)
+  )
+  .addUserOption(option =>
+    option.setName('imune4')
+      .setDescription('Usuário imune 4')
+      .setRequired(false)
+  )
+  .addUserOption(option =>
+    option.setName('imune5')
+      .setDescription('Usuário imune 5')
+      .setRequired(false)
+  ),
 
   new SlashCommandBuilder()
     .setName('liberar')

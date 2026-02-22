@@ -59,15 +59,23 @@ client.on('interactionCreate', async interaction => {
 
 if (interaction.commandName === 'conjurar') {
 
-  const usuarioImune = interaction.options.getUser('imune');
+  const imunes = [
+    interaction.options.getUser('imune1'),
+    interaction.options.getUser('imune2'),
+    interaction.options.getUser('imune3'),
+    interaction.options.getUser('imune4'),
+    interaction.options.getUser('imune5')
+  ]
+    .filter(user => user) // remove null
+    .map(user => user.id); // pega só os IDs
 
   await interaction.reply("O ritual é iniciado...\nO silêncio consome as vozes.");
 
   channel.members.forEach(member => {
     if (
-      member.id !== interaction.user.id &&       // não muta quem usou
-      !member.user.bot &&                        // não muta bots
-      (!usuarioImune || member.id !== usuarioImune.id) // não muta o imune
+      member.id !== interaction.user.id &&  // não muta quem usou
+      !member.user.bot &&                   // não muta bots
+      !imunes.includes(member.id)           // não muta os imunes
     ) {
       member.voice.setMute(true).catch(console.error);
     }
