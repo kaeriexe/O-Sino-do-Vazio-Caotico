@@ -4,7 +4,12 @@ const { REST, Routes, SlashCommandBuilder } = require('discord.js');
 const commands = [
   new SlashCommandBuilder()
     .setName('conjurar')
-    .setDescription('Conjura um ritual de silêncio'),
+    .setDescription('Conjura um ritual de silêncio')
+    .addUserOption(option =>
+      option.setName('imune')
+        .setDescription('Usuário que não será afetado pelo ritual')
+        .setRequired(false)
+    ),
 
   new SlashCommandBuilder()
     .setName('liberar')

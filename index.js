@@ -23,7 +23,7 @@ client.on('interactionCreate', async interaction => {
 
     if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
       return interaction.reply({ 
-        content: "❌ Apenas Administradores podem definir o cargo.", 
+        content: "Apenas Administradores podem definir o cargo.", 
         ephemeral: true 
       });
     }
@@ -33,7 +33,7 @@ client.on('interactionCreate', async interaction => {
     config.cargoPermitido = cargo.id;
     fs.writeFileSync('./config.json', JSON.stringify(config, null, 2));
 
-    return interaction.reply(`Em diante do outro lado, ele molda tudo que vê, que sente. ${cargo.name}, você transcendeu, upando 5 de NEX, além de poder conjurar rituais sem usos de componentes ritualísticos.`);
+    return interaction.reply(`Em diante do outro lado, ele molda tudo que vê, que sente. ${cargo.name}, você transcendeu, upando 5% de NEX, além de poder conjurar rituais sem usos de componentes ritualísticos.`);
   }
 
   const channel = interaction.member.voice.channel;
@@ -57,19 +57,22 @@ client.on('interactionCreate', async interaction => {
     });
   }
 
-  if (interaction.commandName === 'conjurar') {
+if (interaction.commandName === 'conjurar') {
 
-    await interaction.reply("O ritual é iniciado...\nO silêncio consome as vozes.");
+  const usuarioImune = interaction.options.getUser('imune');
 
-    channel.members.forEach(member => {
-      if (
-        member.id !== interaction.user.id && // não muta quem usou
-        !member.user.bot                    // NÃO muta bots
-      ) {
-        member.voice.setMute(true).catch(console.error);
-      }
-    });
-  }
+  await interaction.reply("O ritual é iniciado...\nO silêncio consome as vozes.");
+
+  channel.members.forEach(member => {
+    if (
+      member.id !== interaction.user.id &&       // não muta quem usou
+      !member.user.bot &&                        // não muta bots
+      (!usuarioImune || member.id !== usuarioImune.id) // não muta o imune
+    ) {
+      member.voice.setMute(true).catch(console.error);
+    }
+  });
+}
 
   if (interaction.commandName === 'liberar') {
 
